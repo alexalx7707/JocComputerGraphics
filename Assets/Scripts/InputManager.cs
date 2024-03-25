@@ -22,7 +22,7 @@ public class InputManager : MonoBehaviour
         //we are registering the event handler before the game starts
         onFootActions.Jump.performed += ctx => playerMotor.Jump(); //ctx has contextual information regarding 
                                                                                //the triggered event such as input value, control device etc.
-        playerLook = GetComponent<PlayerLook>();  
+        playerLook = GetComponent<PlayerLook>();
         
         onFootActions.Crouch.performed += ctx => playerMotor.Crouch();
     }

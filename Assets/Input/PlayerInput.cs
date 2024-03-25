@@ -62,6 +62,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Stealth"",
+                    ""type"": ""Button"",
+                    ""id"": ""40e44a94-a23f-4f41-930f-ce0cbca3765a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b5c5ccd-2142-442d-af77-57eda3a6db32"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Stealth"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_OnFoot_Jump = m_OnFoot.FindAction("Jump", throwIfNotFound: true);
         m_OnFoot_LookAround = m_OnFoot.FindAction("LookAround", throwIfNotFound: true);
         m_OnFoot_Crouch = m_OnFoot.FindAction("Crouch", throwIfNotFound: true);
+        m_OnFoot_Stealth = m_OnFoot.FindAction("Stealth", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +250,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_OnFoot_Jump;
     private readonly InputAction m_OnFoot_LookAround;
     private readonly InputAction m_OnFoot_Crouch;
+    private readonly InputAction m_OnFoot_Stealth;
     public struct OnFootActions
     {
         private @PlayerInput m_Wrapper;
@@ -237,6 +259,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_OnFoot_Jump;
         public InputAction @LookAround => m_Wrapper.m_OnFoot_LookAround;
         public InputAction @Crouch => m_Wrapper.m_OnFoot_Crouch;
+        public InputAction @Stealth => m_Wrapper.m_OnFoot_Stealth;
         public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Crouch.started += instance.OnCrouch;
             @Crouch.performed += instance.OnCrouch;
             @Crouch.canceled += instance.OnCrouch;
+            @Stealth.started += instance.OnStealth;
+            @Stealth.performed += instance.OnStealth;
+            @Stealth.canceled += instance.OnStealth;
         }
 
         private void UnregisterCallbacks(IOnFootActions instance)
@@ -274,6 +300,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Crouch.started -= instance.OnCrouch;
             @Crouch.performed -= instance.OnCrouch;
             @Crouch.canceled -= instance.OnCrouch;
+            @Stealth.started -= instance.OnStealth;
+            @Stealth.performed -= instance.OnStealth;
+            @Stealth.canceled -= instance.OnStealth;
         }
 
         public void RemoveCallbacks(IOnFootActions instance)
@@ -297,5 +326,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLookAround(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnStealth(InputAction.CallbackContext context);
     }
 }
