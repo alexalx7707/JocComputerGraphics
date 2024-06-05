@@ -10,6 +10,7 @@ public class PlayerMotor : MonoBehaviour
     private bool isGrounded;
     private bool lerpCrouch = false;
     private bool crouching = false;
+    private bool walking = false;
     private float crouchTimer = 0f;
     public float playerSpeed = 5f;
     public float gravity = -9.8f;
@@ -71,5 +72,17 @@ public class PlayerMotor : MonoBehaviour
         crouching = !crouching;
         crouchTimer = 0;
         lerpCrouch = true;
+    }
+
+    public void Stealth()
+    {
+        walking = !walking;
+        if(walking) {
+            playerSpeed = 2;
+        }
+        else
+        {
+            playerSpeed = 5;
+        }
     }
 }
