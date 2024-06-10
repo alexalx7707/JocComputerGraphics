@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     public PlayerInput.OnFootActions onFoot; //reference to the OnFoot action map(walk and jump etc.)
     private PlayerMotor playerMotor;
     private PlayerLook playerLook;
+    private PlayerStamina playerStamina;
 
     void Awake()
     {
@@ -23,9 +24,12 @@ public class InputManager : MonoBehaviour
         onFoot.Jump.performed += ctx => playerMotor.Jump(); //ctx has contextual information regarding 
                                                                                //the triggered event such as input value, control device etc.
         playerLook = GetComponent<PlayerLook>();  
+        playerStamina = GetComponent<PlayerStamina>();
         
         onFoot.Crouch.performed += ctx => playerMotor.Crouch();
         onFoot.Stealth.performed += ctx => playerMotor.Stealth();
+        onFoot.Sprint.performed += ctx => playerMotor.Sprint();
+        
     }
 
     // Update is called once per frame
