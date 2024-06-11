@@ -6,13 +6,11 @@ public class StateMachine : MonoBehaviour
 {
     //the brain of the enemy, it will control the states
     public BaseState activeState;
-    public PatrolState patrolState;
 
     public void Initialise()
     {
         //set the initial state
-        patrolState = new PatrolState();
-        ChangeState(patrolState);
+        ChangeState(new PatrolState());
     }
 
     // Start is called before the first frame update

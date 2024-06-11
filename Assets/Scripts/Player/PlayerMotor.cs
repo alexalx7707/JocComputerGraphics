@@ -77,6 +77,14 @@ public class PlayerMotor : MonoBehaviour
         crouching = !crouching;
         crouchTimer = 0;
         lerpCrouch = true;
+        if (crouching)
+        {
+            playerSpeed = 2;
+        }
+        else
+        {
+            playerSpeed = 5;
+        }
     }
 
     public void Stealth()
