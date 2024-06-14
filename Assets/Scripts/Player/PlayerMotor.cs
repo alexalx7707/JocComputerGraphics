@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 //HERE YOU CONTROL ALL THE PLAYER MOVEMENT FUNCTIONALITY
@@ -7,6 +9,7 @@ public class PlayerMotor : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerStamina playerStamina;
+    private Camera cam;
     private Vector3 playerVelocity;
     private bool isGrounded;
     private bool lerpCrouch = false;
@@ -17,11 +20,15 @@ public class PlayerMotor : MonoBehaviour
     public float playerSpeed = 5f;
     public float gravity = -9.8f;
     public float jumpHeight = 1.5f;
+    public Transform playerGunBarrel; //the position the bullets will spawn from
+
+    
     // Start is called before the first frame update
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         playerStamina = GetComponent<PlayerStamina>();
+        cam = GetComponent<PlayerLook>().cam;
     }
 
     // Update is called once per frame
@@ -45,7 +52,11 @@ public class PlayerMotor : MonoBehaviour
                 crouchTimer = 0f;
             }
         }
+
+        
     }
+
+    
 
     //we receive the inputs from InputManager and assign them to character controller 
     public void ProcessMove(Vector2 input)
@@ -123,6 +134,8 @@ public class PlayerMotor : MonoBehaviour
             playerStamina.SprintCanceled();
         }
     }
+
+    
 
     public void SetPlayerSpeed(float newSpeed)
     {

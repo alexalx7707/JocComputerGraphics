@@ -10,12 +10,14 @@ public class InputManager : MonoBehaviour
     private PlayerMotor playerMotor;
     private PlayerLook playerLook;
     private PlayerStamina playerStamina;
+    private PlayerWeaponManager weaponManager;
 
     void Awake()
     {
         playerInput = new PlayerInput();
         onFoot = playerInput.OnFoot;
         playerMotor = GetComponent<PlayerMotor>();
+        weaponManager = GetComponent<PlayerWeaponManager>();
         //we use a lambda for jump (=>)
         //esentially we say 'when the jump action is performed (space is pressed, as in the action map),call
         //the callback context to point and execute the jump function
@@ -29,7 +31,16 @@ public class InputManager : MonoBehaviour
         onFoot.Crouch.performed += ctx => playerMotor.Crouch();
         onFoot.Stealth.performed += ctx => playerMotor.Stealth();
         onFoot.Sprint.performed += ctx => playerMotor.Sprint();
-        
+        onFoot.Shoot.performed += ctx => Shoot();
+        onFoot.Reload.performed += ctx => weaponManager.currentWeapon.Reload();
+    }
+
+    private void Shoot()
+    {
+        if (weaponManager.currentWeapon != null)
+        {
+            weaponManager.currentWeapon.Shoot();
+        }
     }
 
     // Update is called once per frame

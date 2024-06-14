@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
+    public float health = 100f; //the health of the enemy
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private GameObject player; //the player object
@@ -69,5 +71,20 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+        //make the enemy look at the player when it takes damage and enter in the attack state if it's not already in it
+        transform.LookAt(player.transform);
+        if(stateMachine.activeState.ToString() != "AttackState")
+        {
+            stateMachine.ChangeState(new AttackState());
+        }
     }
 }

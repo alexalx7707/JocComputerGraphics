@@ -6,10 +6,11 @@ public class PlayerUI : MonoBehaviour
 {
     [SerializeField]
     public TextMeshProUGUI promptText;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+      
     }
 
     public void UpdateText(string promptMessage)
