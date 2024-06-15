@@ -6,6 +6,7 @@ public class PlayerWeaponManager : MonoBehaviour
 {
     public Weapon currentWeapon;
     public Weapon[] availableWeapons;
+    public GameObject grenadePrefab;
 
     void Start()
     {
@@ -31,9 +32,13 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             EquipWeapon(availableWeapons[2]);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            EquipWeapon(availableWeapons[3]);
+        }
     }
 
-    void EquipWeapon(Weapon newWeapon)
+    public void EquipWeapon(Weapon newWeapon)
     {
         if (currentWeapon != null)
         {

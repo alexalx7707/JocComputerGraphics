@@ -8,8 +8,8 @@ public class AssaultRifle : Weapon
     private float nextFireTime;
     void Start()
     {
-        magazineSize = 30;
-        bulletsLeft = magazineSize;
+        magazineSize = 150;
+        bulletsLeft = 30;
         reloadTime = 4f;
         UpdateBulletsUI();
     }
@@ -50,7 +50,7 @@ public class AssaultRifle : Weapon
 
     public override void Reload()
     {
-        if (bulletsLeft == magazineSize || isReloading) return; //if the magazine is full or we are already reloading, return (do nothing)
+        if (bulletsLeft == 30 || isReloading || magazineSize == 0) return; //if the magazine is full or we are already reloading, return (do nothing)
         isReloading = true;
         //make the text black while reloading
         bulletsLeftText.color = Color.black;
@@ -59,7 +59,9 @@ public class AssaultRifle : Weapon
 
     public override void ReloadCompleted()
     {
-        bulletsLeft = magazineSize;
+        int bulletsToReload = 30 - bulletsLeft;
+        bulletsLeft = 30;
+        magazineSize -= bulletsToReload;
         bulletsLeftText.color = Color.white;
         isReloading = false;
     }

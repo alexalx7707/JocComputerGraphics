@@ -67,7 +67,7 @@ public class AttackState : BaseState
         //the higher the number, the less accurate the bullet will be
         bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-0.2f,0.2f),Vector3.up) * shootDirection * 40; //40 is the speed of the bullet
 
-        Debug.Log("Pew pew");
+        //Debug.Log("Pew pew");
         shotTimer = 0;
     }
 

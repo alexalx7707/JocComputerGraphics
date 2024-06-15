@@ -7,8 +7,8 @@ public class Pistol : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        magazineSize = 7;
-        bulletsLeft = magazineSize;
+        magazineSize = 49;
+        bulletsLeft = 7;
         reloadTime = 2f;
         UpdateBulletsUI();
     }
@@ -46,7 +46,7 @@ public class Pistol : Weapon
 
     public override void Reload()
     {
-        if (bulletsLeft == magazineSize || isReloading) return; //if the magazine is full or we are already reloading, return (do nothing)
+        if (bulletsLeft == 7 || isReloading || magazineSize == 0) return; //if the magazine is full or we are already reloading, return (do nothing)
         isReloading = true;
         //make the text black while reloading
         bulletsLeftText.color = Color.black;
@@ -55,7 +55,9 @@ public class Pistol : Weapon
 
     public override void ReloadCompleted()
     {
-        bulletsLeft = magazineSize;
+        int bulletsToReload = 7 - bulletsLeft;
+        bulletsLeft = 7;
+        magazineSize -= bulletsToReload;
         bulletsLeftText.color = Color.white;
         isReloading = false;
     }
