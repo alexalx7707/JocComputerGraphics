@@ -96,7 +96,9 @@ public class Throwable : Weapon
         {
             bulletsLeft--;
             hasBeenThrown = true;
-            
+
+            transform.SetParent(null); //unparent the throwable so that it doesn't follow the player
+
             rb.isKinematic = false;
             rb.useGravity = true;
 

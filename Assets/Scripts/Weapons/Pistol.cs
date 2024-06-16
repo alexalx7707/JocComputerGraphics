@@ -21,7 +21,7 @@ public class Pistol : Weapon
 
     public override void Shoot()
     {
-        if (bulletsLeft > 0)
+        if (bulletsLeft > 0 && isReloading == false)
         {
             bulletsLeft--;
             Ray ray = new Ray(cam.transform.position, cam.transform.forward);

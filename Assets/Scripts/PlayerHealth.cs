@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
     private float health;
     private float lerpTimer; //used to smoothly transition the health bar
+    private float lastHealth;
+    public GameObject deathText;
     public float maxHealth = 100f;
     public float chipSpeed = 2f; //how fast the health bar will update
     public Image frontHealthBar; //the front image of the health bar
     public Image backHealthBar; //the back image of the health bar
     public TextMeshProUGUI healthText; //the text displaying the health value
+    public Camera deathCam; //the camera that will be enabled when the player dies
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +28,6 @@ public class PlayerHealth : MonoBehaviour
     {
         health = Mathf.Clamp(health, 0, maxHealth); //make sure health is between 0 and maxHealth
         UpdateHealthUI(); //update the health bar
-        
     }
 
     // UpdateHealthUI will update the health bar to reflect the current health value
@@ -59,8 +62,36 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        lastHealth = health;
         health -= damage;
+        if(health <= 0 && lastHealth > 0)
+        {
+            PlayerDead();
+        }
         lerpTimer = 0f; //reset the lerpTimer, so the health bar will update immediately
+    }
+
+    private void PlayerDead()
+    {
+        //stop the player from moving and shooting and looking around
+        //if the input manager is disabled already, don't try to disable it again
+        if(GetComponent<InputManager>().enabled)
+        {
+            GetComponent<PlayerLook>().enabled = false;
+            GetComponent<InputManager>().enabled = false;
+            GetComponent<PlayerWeaponManager>().enabled = false;
+        }
+        //dying animation
+        //set active the animator of the death cam
+        deathCam.GetComponent<Animator>().enabled = true;
+        GetComponent<ScreenFader>().StartFade();
+        StartCoroutine(DeathText());
+    }
+
+    private IEnumerator DeathText()
+    {
+        yield return new WaitForSeconds(3f);
+        deathText.gameObject.SetActive(true);
     }
 
     public void RestoreHealth(float healAmount)

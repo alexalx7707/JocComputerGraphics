@@ -79,11 +79,13 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            return;
         }
         //make the enemy look at the player when it takes damage and enter in the attack state if it's not already in it
         transform.LookAt(player.transform);
         if(stateMachine.activeState.ToString() != "AttackState")
         {
+           agent.SetDestination(transform.position); //stop the enemy from moving
             stateMachine.ChangeState(new AttackState());
         }
     }

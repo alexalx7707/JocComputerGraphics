@@ -44,7 +44,7 @@ public class AttackState : BaseState
         else //lost sight of player
         {
             losePlayerTimer += Time.deltaTime;
-            if(losePlayerTimer > 4)
+            if(losePlayerTimer > 0.2f)
             {
                 //switch to the search state.
                 stateMachine.ChangeState(new SearchState());

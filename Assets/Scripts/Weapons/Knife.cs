@@ -27,7 +27,7 @@ public class Knife : Weapon
         {
             if (hitInfo.collider.GetComponent<Enemy>() != null)
             {
-                hitInfo.collider.GetComponent<Enemy>().TakeDamage(50);
+                hitInfo.collider.GetComponent<Enemy>().TakeDamage(100);
             }
         }
         //simulate a knife stab, by moving the knife forward for a short distance and then back in 0.1 seconds
