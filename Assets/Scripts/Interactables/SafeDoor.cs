@@ -21,7 +21,11 @@ public class SafeDoor : Interactable
     //here we will implement the custom code for the SafeDoor
     protected override void Interact()
     {
-        safeOpen = !safeOpen; //toggle the safeOpen variable, if the safe is open, close it and vice versa
-        safe.GetComponent<Animator>().SetBool("IsSafeOpen", safeOpen); //set the open parameter in the animator to the value of safeOpen
+        if (!safeOpen)
+        {
+            SafeManager.Instance.safeCount++;
+            safeOpen = !safeOpen; //toggle the safeOpen variable, if the safe is open, close it and vice versa
+            safe.GetComponent<Animator>().SetBool("IsSafeOpen", safeOpen); //set the open parameter in the animator to the value of safeOpen
+        }
     }
 }

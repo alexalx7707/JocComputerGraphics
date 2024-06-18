@@ -7,10 +7,11 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     public float health = 100f; //the health of the enemy
-    private StateMachine stateMachine;
+    public StateMachine stateMachine; //ERA PRIVATE INAINTE ***
     private NavMeshAgent agent;
     private GameObject player; //the player object
     private Vector3 lastKnowPos; //the last known position of the player
+    //private bool isAlerted = false; //is the enemy alerted
     public NavMeshAgent Agent { get => agent; } //property to access the navmesh agent from other scripts (like the states)
     public GameObject Player { get => player; } //property to access the player object from other scripts (like the states)
     public Vector3 LastKnowPos { get => lastKnowPos; set => lastKnowPos = value; } //property to access the last known position of the player from other scripts (like the states)
@@ -18,7 +19,7 @@ public class Enemy : MonoBehaviour
     public Path path; //the path the enemy will follow
 
     [Header("Sight Values")]
-    public float sightDistance = 20f; //how far the enemy can see
+    public float sightDistance = 30f; //how far the enemy can see
     public float fieldOfView = 75f; //the field of view of the enemy
     public float eyeHeight; //the height of the enemy's eyes
 
@@ -36,14 +37,22 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateMachine.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        AlertSystem.Instance.RegisterEnemy(this); //***
     }
 
     // Update is called once per frame
     void Update()
     {
-        CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
+        CanSeePlayer();
+       
     }
+
+    void OnDestroy()
+    {
+        AlertSystem.Instance.UnregisterEnemy(this);
+    } //***
 
     public bool CanSeePlayer()
     {
@@ -63,6 +72,7 @@ public class Enemy : MonoBehaviour
                     {
                         if(hitInfo.transform.gameObject == player)
                         {
+                            AlertSystem.Instance.Alert(player.transform.position);
                             return true;
                         }
                     }
